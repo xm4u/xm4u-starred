@@ -1,0 +1,72 @@
+{
+  "app": {
+    "title": "xm4u · starred",
+    "description": "Un índice curado de los repositorios que xm4u tiene con estrella en GitHub.",
+    "repoLink": "Ver código en GitHub"
+  },
+  "header": {
+    "repos_one": "{{count}} repo",
+    "repos_other": "{{count}} repos",
+    "synced": "sincronizado {{date}}"
+  },
+  "filters": {
+    "search": "Buscar repos, topics o tags…",
+    "searchHint": "Pulsa / para buscar",
+    "all": "Todos",
+    "languages": "Lenguajes",
+    "language": "Lenguaje",
+    "languageFilter": "Filtrar por lenguaje",
+    "sort": "Ordenar",
+    "group": "Agrupar por categoría",
+    "open": "Filtros",
+    "clear": "Limpiar filtros",
+    "clearAll": "Limpiar todo",
+    "showing": "Mostrando {{shown}} de {{total}}",
+    "empty": "Ningún repo coincide con estos filtros",
+    "emptyHint": "Prueba otra búsqueda o limpia los filtros activos.",
+    "reset": "Restablecer filtros",
+    "tags": "Tags",
+    "noLanguages": "No hay lenguajes."
+  },
+  "sort": {
+    "starred": "Añadidos recientemente",
+    "stars": "Más estrellas",
+    "pushed": "Push reciente",
+    "name": "Nombre A–Z"
+  },
+  "categories": {
+    "seguridad": "Seguridad",
+    "terminal": "Terminal",
+    "agentes": "Agentes",
+    "diseno": "Diseño",
+    "gestion": "Productividad",
+    "aprendizaje": "Aprendizaje",
+    "otros": "Otros"
+  },
+  "repo": {
+    "stars_one": "{{count}} estrella",
+    "stars_other": "{{count}} estrellas",
+    "updated": "Actualizado {{date}}",
+    "archived": "Archivado",
+    "note": "Nota",
+    "open": "Abrir {{name}} en GitHub",
+    "filterTag": "Filtrar por tag {{tag}}"
+  },
+  "theme": {
+    "label": "Tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  },
+  "language": {
+    "label": "Idioma",
+    "change": "Cambiar idioma",
+    "en": "English",
+    "es": "Español"
+  },
+  "footer": {
+    "built": "Sitio estático · datos de GitHub",
+    "updated": "Datos actualizados {{date}}",
+    "source": "Código"
+  }
+}

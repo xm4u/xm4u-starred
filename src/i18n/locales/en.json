@@ -1,0 +1,72 @@
+{
+  "app": {
+    "title": "xm4u · starred",
+    "description": "A curated index of the repositories xm4u has starred on GitHub.",
+    "repoLink": "View source on GitHub"
+  },
+  "header": {
+    "repos_one": "{{count}} repo",
+    "repos_other": "{{count}} repos",
+    "synced": "synced {{date}}"
+  },
+  "filters": {
+    "search": "Search repos, topics, tags…",
+    "searchHint": "Press / to search",
+    "all": "All",
+    "languages": "Languages",
+    "language": "Language",
+    "languageFilter": "Filter by language",
+    "sort": "Sort",
+    "group": "Group by category",
+    "open": "Filters",
+    "clear": "Clear filters",
+    "clearAll": "Clear all",
+    "showing": "Showing {{shown}} of {{total}}",
+    "empty": "No repos match these filters",
+    "emptyHint": "Try a different search or clear the active filters.",
+    "reset": "Reset filters",
+    "tags": "Tags",
+    "noLanguages": "No languages found."
+  },
+  "sort": {
+    "starred": "Recently starred",
+    "stars": "Most stars",
+    "pushed": "Recently pushed",
+    "name": "Name A–Z"
+  },
+  "categories": {
+    "seguridad": "Security",
+    "terminal": "Terminal",
+    "agentes": "Agents",
+    "diseno": "Design",
+    "gestion": "Productivity",
+    "aprendizaje": "Learning",
+    "otros": "Other"
+  },
+  "repo": {
+    "stars_one": "{{count}} star",
+    "stars_other": "{{count}} stars",
+    "updated": "Updated {{date}}",
+    "archived": "Archived",
+    "note": "Note",
+    "open": "Open {{name}} on GitHub",
+    "filterTag": "Filter by tag {{tag}}"
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "language": {
+    "label": "Language",
+    "change": "Change language",
+    "en": "English",
+    "es": "Español"
+  },
+  "footer": {
+    "built": "Static site · data from GitHub",
+    "updated": "Data updated {{date}}",
+    "source": "Source"
+  }
+}

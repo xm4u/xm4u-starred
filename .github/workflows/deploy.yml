@@ -1,0 +1,130 @@
+name: Sync and deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+# Jobs request only the permissions they require.
+permissions: {}
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+      - name: Sync without npm dependencies or write token
+        run: node scripts/sync.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Validate synchronized dataset
+        run: node scripts/validate-data.mjs src/data/repos.json
+      - name: Upload synchronized dataset
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: synchronized-repos
+          path: src/data/repos.json
+          if-no-files-found: error
+          retention-days: 1
+
+  commit:
+    needs: sync
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: synchronized-repos
+          path: src/data
+      - name: Validate before committing
+        run: node scripts/validate-data.mjs src/data/repos.json
+      - name: Commit updated dataset (no npm or build tools)
+        env:
+          GH_PUSH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- src/data/repos.json; then
+            echo "No dataset changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- src/data/repos.json
+          git commit -m "chore: sync starred repositories"
+          # Git reads credentials from process environment, never command-line arguments.
+          export GIT_CONFIG_COUNT=1
+          export GIT_CONFIG_KEY_0=http.https://github.com/.extraheader
+          export GIT_CONFIG_VALUE_0="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_PUSH_TOKEN" | base64 | tr -d '\n')"
+          git fetch origin main
+          git rebase FETCH_HEAD
+          git push origin HEAD:main
+          unset GIT_CONFIG_VALUE_0 GH_PUSH_TOKEN
+
+  build:
+    needs: [sync, commit]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: synchronized-repos
+          path: src/data
+      - name: Validate dataset
+        run: node scripts/validate-data.mjs src/data/repos.json
+      - name: Test
+        run: npm test
+      - name: Lint
+        run: npm run lint
+      - name: Audit dependencies
+        run: npm audit --audit-level=moderate
+      - name: Build
+        run: npm run build
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

@@ -1,0 +1,173 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./styles/radix-variants.css";
+@import "@fontsource-variable/ibm-plex-sans";
+@import "@fontsource/ibm-plex-mono/latin-400.css";
+@import "@fontsource/ibm-plex-mono/latin-500.css";
+@import "@fontsource/ibm-plex-mono/latin-600.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "IBM Plex Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-heading: var(--font-mono);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+}
+
+:root {
+  color-scheme: light;
+
+  --background: #f5f7f9;
+  --foreground: #061826;
+  --card: #ffffff;
+  --card-foreground: #061826;
+  --popover: #ffffff;
+  --popover-foreground: #061826;
+  --primary: #d8263e;
+  --primary-foreground: #ffffff;
+  --secondary: #e8eef4;
+  --secondary-foreground: #061826;
+  --muted: #ebf1f5;
+  --muted-foreground: #3f5668;
+  --accent: #e2eaf1;
+  --accent-foreground: #061826;
+  --destructive: #d8263e;
+  --border: #d2dee8;
+  --input: #c9d7e2;
+  --ring: #d8263e;
+
+  --chart-1: #d8263e;
+  --chart-2: #6ea8fe;
+  --chart-3: #46b3a9;
+  --chart-4: #e0a458;
+  --chart-5: #b692f6;
+
+  --radius: 0.625rem;
+
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0a2233;
+  --sidebar-primary: #d8263e;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e3ebf1;
+  --sidebar-accent-foreground: #0a2233;
+  --sidebar-border: #d9e3eb;
+  --sidebar-ring: #d8263e;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: #02192b;
+  --foreground: #e9f0f5;
+  --card: #062234;
+  --card-foreground: #e9f0f5;
+  --popover: #082a40;
+  --popover-foreground: #e9f0f5;
+  --primary: #d8263e;
+  --primary-foreground: #ffffff;
+  --secondary: #0a2c42;
+  --secondary-foreground: #dce8f0;
+  --muted: #0a2638;
+  --muted-foreground: #8aa3b6;
+  --accent: #123b55;
+  --accent-foreground: #eaf2f8;
+  --destructive: #ff5c6c;
+  --border: #12364d;
+  --input: #0d3046;
+  --ring: #d8263e;
+
+  --chart-1: #d8263e;
+  --chart-2: #6ea8fe;
+  --chart-3: #46b3a9;
+  --chart-4: #e0a458;
+  --chart-5: #b692f6;
+
+  --sidebar: #062234;
+  --sidebar-foreground: #e9f0f5;
+  --sidebar-primary: #d8263e;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #123b55;
+  --sidebar-accent-foreground: #eaf2f8;
+  --sidebar-border: #12364d;
+  --sidebar-ring: #d8263e;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01" 1;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    background-color: #d8263e;
+    color: #ffffff;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
